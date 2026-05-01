@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RMO — SIERA Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #fff;
+      color: #111827;
+      min-height: 100vh;
+    }
+
+    /* ─── Navbar ─────────────────────────────────── */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      height: 68px;
+      border-bottom: 1px solid #f1f2f6;
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .nav-left { display: flex; align-items: center; gap: 14px; }
+    .nav-back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #d97706;
+      background: #fffbeb;
+      border: none;
+      border-radius: 6px;
+      padding: 7px 13px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .nav-back:hover { opacity: 0.8; }
+    .nav-divider { width: 1px; height: 20px; background: #f1f2f6; }
+    .nav-brand { display: flex; align-items: center; gap: 10px; }
+    .nav-icon {
+      width: 34px;
+      height: 34px;
+      background: #d97706;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .nav-icon svg { width: 17px; height: 17px; }
+    .nav-title { font-size: 15px; font-weight: 800; color: #111827; letter-spacing: -0.3px; }
+    .nav-sub { font-size: 10px; color: #9ca3af; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; margin-top: 1px; }
+    .nav-right { display: flex; align-items: center; gap: 8px; }
+    .nav-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: #92400e;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+    .nav-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #d97706;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    /* ─── Main ───────────────────────────────────── */
+    .main { max-width: 860px; margin: 0 auto; padding: 32px 28px 56px; }
+
+    /* ─── Hero ───────────────────────────────────── */
+    .hero { margin-bottom: 28px; }
+    .hero-tag { font-size: 11px; font-weight: 600; color: #d97706; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
+    .hero-title { font-size: 26px; font-weight: 800; color: #111827; letter-spacing: -0.8px; line-height: 1.15; margin-bottom: 6px; }
+    .hero-desc { font-size: 13px; color: #6b7280; line-height: 1.6; max-width: 480px; }
+    .hero-meta { display: flex; align-items: center; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+    .meta-badge { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 6px; border: 1px solid; }
+
+    /* ─── Metric strip ───────────────────────────── */
+    .metric-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: #f1f2f6;
+      border: 1px solid #f1f2f6;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+    .metric-cell { background: #fff; padding: 16px 18px; }
+    .metric-label { font-size: 11px; color: #9ca3af; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 8px; }
+    .metric-val { font-size: 22px; font-weight: 800; color: #d97706; line-height: 1; letter-spacing: -0.5px; }
+    .metric-val span { font-size: 12px; font-weight: 500; color: #9ca3af; margin-left: 3px; }
+    .metric-trend { font-size: 12px; font-weight: 600; margin-top: 5px; }
+    .t-up   { color: #16a34a; }
+    .t-amb  { color: #d97706; }
+
+    /* ─── Escalation flow ────────────────────────── */
+    .escalation-block {
+      border: 1px solid #fde68a;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      background: #fffbeb;
+    }
+    .esc-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      border-bottom: 1px solid #fde68a;
+    }
+    .esc-title { font-size: 12px; font-weight: 700; color: #92400e; }
+    .esc-badge {
+      font-size: 10px;
+      font-weight: 700;
+      color: #d97706;
+      background: #fff;
+      border: 1px solid #fde68a;
+      padding: 3px 9px;
+      border-radius: 5px;
+    }
+    .esc-flow {
+      display: flex;
+      align-items: center;
+      padding: 18px 22px;
+      gap: 0;
+    }
+    .esc-step {
+      flex: 1;
+      text-align: center;
+    }
+    .esc-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #d97706;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 8px;
+    }
+    .esc-role { font-size: 13px; font-weight: 800; color: #92400e; margin-bottom: 3px; }
+    .esc-sub  { font-size: 11px; color: #d97706; font-weight: 500; }
+    .esc-arrow {
+      font-size: 18px;
+      color: #fde68a;
+      padding: 0 4px;
+      flex-shrink: 0;
+      margin-bottom: 20px;
+    }
+    .esc-footer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-top: 1px solid #fde68a;
+      background: rgba(255,255,255,0.6);
+    }
+    .esc-footer-icon { font-size: 13px; }
+    .esc-footer-text { font-size: 11px; color: #92400e; font-weight: 600; }
+
+    /* ─── Reminder timeline ──────────────────────── */
+    .reminder-block {
+      border: 1px solid #f1f2f6;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+    .reminder-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13px 18px;
+      border-bottom: 1px solid #f1f2f6;
+      background: #fafafa;
+    }
+    .reminder-title { font-size: 12px; font-weight: 700; color: #374151; }
+    .reminder-sub   { font-size: 11px; color: #9ca3af; font-weight: 500; }
+    .reminder-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: #f1f2f6;
+    }
+    .reminder-step { background: #fff; padding: 16px 18px; text-align: center; }
+    .reminder-day  { font-size: 22px; font-weight: 800; line-height: 1; margin-bottom: 6px; }
+    .reminder-label { font-size: 11px; font-weight: 600; color: #6b7280; margin-bottom: 3px; }
+    .reminder-desc  { font-size: 10px; color: #9ca3af; line-height: 1.4; }
+
+    /* ─── Section label ──────────────────────────── */
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #9ca3af;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    /* ─── Tool card ──────────────────────────────── */
+    .tool-card {
+      border: 1px solid #f1f2f6;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      transition: border-color 0.15s;
+    }
+    .tool-card:hover { border-color: #fde68a; }
+    .tool-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 22px 16px;
+      border-bottom: 1px solid #f1f2f6;
+    }
+    .tool-header-left { display: flex; align-items: center; gap: 14px; }
+    .tool-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .tool-icon svg { width: 21px; height: 21px; }
+    .tool-tag { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 3px; }
+    .tool-name { font-size: 16px; font-weight: 800; color: #111827; letter-spacing: -0.3px; }
+    .tool-status {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 6px;
+      border: 1px solid;
+      flex-shrink: 0;
+    }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    .tool-card-body { padding: 18px 22px; }
+    .tool-desc { font-size: 13px; color: #6b7280; line-height: 1.65; margin-bottom: 16px; }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: #f1f2f6;
+      border: 1px solid #f1f2f6;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+    .feature-item {
+      background: #fff;
+      padding: 12px 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .feature-dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+    .feature-name { font-size: 12px; font-weight: 700; color: #111827; margin-bottom: 2px; }
+    .feature-desc { font-size: 11px; color: #9ca3af; line-height: 1.5; }
+
+    .tool-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 22px;
+      background: #fafafa;
+      border-top: 1px solid #f1f2f6;
+      gap: 12px;
+    }
+    .tool-meta-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+    .mini-badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 5px;
+      border: 1px solid #e5e7eb;
+      color: #6b7280;
+      background: #fff;
+    }
+    .launch-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.15s;
+      letter-spacing: 0.2px;
+      flex-shrink: 0;
+    }
+    .launch-btn:hover { opacity: 0.88; }
+    .launch-btn svg { width: 13px; height: 13px; }
+
+    /* ─── Vendor row ─────────────────────────────── */
+    .vendor-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: #f1f2f6;
+      border: 1px solid #f1f2f6;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+    .vendor-cell {
+      background: #fff;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .vendor-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #d97706;
+      flex-shrink: 0;
+    }
+    .vendor-name { font-size: 13px; font-weight: 800; color: #111827; margin-bottom: 2px; }
+    .vendor-desc { font-size: 11px; color: #9ca3af; }
+
+    /* ─── Footer ─────────────────────────────────── */
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 20px;
+      border-top: 1px solid #f1f2f6;
+      margin-top: 8px;
+    }
+    .footer-txt  { font-size: 11px; color: #d1d5db; font-weight: 500; }
+    .footer-link { font-size: 11px; font-weight: 600; color: #9ca3af; text-decoration: none; }
+    .footer-link:hover { color: #d97706; }
+
+    /* ─── Responsive ─────────────────────────────── */
+    @media (max-width: 640px) {
+      .nav { padding: 0 16px; }
+      .main { padding: 24px 16px 48px; }
+      .metric-strip { grid-template-columns: repeat(2, 1fr); }
+      .esc-flow { flex-direction: column; gap: 4px; align-items: center; }
+      .esc-arrow { transform: rotate(90deg); margin: 0; }
+      .reminder-row { grid-template-columns: 1fr; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .vendor-row { grid-template-columns: 1fr; }
+      .tool-card-footer { flex-direction: column; align-items: flex-start; }
+      .launch-btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════════════ -->
+  <nav class="nav">
+    <div class="nav-left">
+      <a class="nav-back" href="../../dashboard.html">← Dashboard</a>
+      <div class="nav-divider"></div>
+      <div class="nav-brand">
+        <div class="nav-icon">
+          <svg viewBox="0 0 20 20" fill="none">
+            <rect x="2" y="5" width="16" height="11" rx="2" stroke="#fff" stroke-width="1.5"/>
+            <path d="M6 9h8M6 12h5" stroke="#fff" stroke-width="1.1" stroke-linecap="round"/>
+            <circle cx="16" cy="5" r="3" fill="rgba(255,255,255,0.35)" stroke="#fff" stroke-width="1"/>
+          </svg>
+        </div>
+        <div>
+          <div class="nav-title">RMO</div>
+          <div class="nav-sub">SIERA Portal · Region 5</div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-right">
+      <div class="nav-tag">RMO</div>
+      <div class="nav-avatar">GP</div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════
+       MAIN
+  ═══════════════════════════════════════════════ -->
+  <div class="main">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-tag">Division · RMO</div>
+      <div class="hero-title">VMD &amp; Activity</div>
+      <div class="hero-desc">Monitor visual merchandising compliance seluruh store, eskalasi otomatis via WhatsApp, dan kelola pajak reklame dengan reminder H-60/H-30/H-7.</div>
+      <div class="hero-meta">
+        <span class="meta-badge" style="color:#d97706;border-color:#fde68a;background:#fffbeb;">135 stores VMD</span>
+        <span class="meta-badge" style="color:#16a34a;border-color:#bbf7d0;background:#f0fdf4;">2 tools live</span>
+        <span class="meta-badge" style="color:#6b7280;border-color:#e5e7eb;background:#f9fafb;">Auto WA notif</span>
+      </div>
+    </div>
+
+    <!-- Metric strip -->
+    <div class="metric-strip">
+      <div class="metric-cell">
+        <div class="metric-label">Stores VMD</div>
+        <div class="metric-val">135 <span>stores</span></div>
+        <div class="metric-trend t-amb">ERA-VIS coverage</div>
+      </div>
+      <div class="metric-cell">
+        <div class="metric-label">Eskalasi WA</div>
+        <div class="metric-val">3 <span>level</span></div>
+        <div class="metric-trend t-amb">Store · Area · Regional</div>
+      </div>
+      <div class="metric-cell">
+        <div class="metric-label">Stores SIGNTAX</div>
+        <div class="metric-val">102 <span>stores</span></div>
+        <div class="metric-trend t-amb">ELFABI &amp; CAKRA</div>
+      </div>
+      <div class="metric-cell">
+        <div class="metric-label">Tools live</div>
+        <div class="metric-val">2 <span>tools</span></div>
+        <div class="metric-trend t-up">ERA-VIS + SIGNTAX</div>
+      </div>
+    </div>
+
+    <!-- Escalation flow -->
+    <div class="escalation-block">
+      <div class="esc-header">
+        <div class="esc-title">WA Escalation Flow — ERA-VIS</div>
+        <div class="esc-badge">Fonnte API</div>
+      </div>
+      <div class="esc-flow">
+        <div class="esc-step">
+          <div class="esc-num">1</div>
+          <div class="esc-role">Store Leader</div>
+          <div class="esc-sub">Notif awal · D+1</div>
+        </div>
+        <div class="esc-arrow">→</div>
+        <div class="esc-step">
+          <div class="esc-num">2</div>
+          <div class="esc-role">Area Manager</div>
+          <div class="esc-sub">Eskalasi · D+3</div>
+        </div>
+        <div class="esc-arrow">→</div>
+        <div class="esc-step">
+          <div class="esc-num">3</div>
+          <div class="esc-role">Regional</div>
+          <div class="esc-sub">Final eskalasi · D+7</div>
+        </div>
+      </div>
+      <div class="esc-footer">
+        <div class="esc-footer-icon">📲</div>
+        <div class="esc-footer-text">Setiap level dinotifikasi otomatis via WhatsApp jika store belum comply pada batas waktu</div>
+      </div>
+    </div>
+
+    <!-- SIGNTAX reminder timeline -->
+    <div class="reminder-block">
+      <div class="reminder-header">
+        <div class="reminder-title">Reminder pajak reklame — SIGNTAX-ERA</div>
+        <div class="reminder-sub">Otomatis via Fonnte</div>
+      </div>
+      <div class="reminder-row">
+        <div class="reminder-step">
+          <div class="reminder-day" style="color:#d97706;">H-60</div>
+          <div class="reminder-label">Peringatan awal</div>
+          <div class="reminder-desc">60 hari sebelum jatuh tempo — info ke store &amp; area</div>
+        </div>
+        <div class="reminder-step">
+          <div class="reminder-day" style="color:#b45309;">H-30</div>
+          <div class="reminder-label">Eskalasi pertama</div>
+          <div class="reminder-desc">30 hari — permintaan konfirmasi proses perpanjangan</div>
+        </div>
+        <div class="reminder-step">
+          <div class="reminder-day" style="color:#dc2626;">H-7</div>
+          <div class="reminder-label">Alert kritis</div>
+          <div class="reminder-desc">7 hari — eskalasi ke Regional, tindakan segera</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Tools aktif -->
+    <div class="section-label">Tools aktif</div>
+
+    <!-- ERA-VIS tool card -->
+    <div class="tool-card">
+      <div class="tool-card-header">
+        <div class="tool-header-left">
+          <div class="tool-icon" style="background:#fffbeb;">
+            <svg viewBox="0 0 20 20" fill="none">
+              <rect x="2" y="5" width="16" height="11" rx="2" stroke="#d97706" stroke-width="1.5"/>
+              <path d="M6 9h8M6 12h5" stroke="#d97706" stroke-width="1.1" stroke-linecap="round"/>
+              <circle cx="16" cy="5" r="3" fill="#fde68a" stroke="#d97706" stroke-width="1"/>
+            </svg>
+          </div>
+          <div>
+            <div class="tool-tag" style="color:#d97706;">RMO · Tool 1</div>
+            <div class="tool-name">ERA-VIS</div>
+          </div>
+        </div>
+        <div class="tool-status" style="color:#16a34a;background:#f0fdf4;border-color:#bbf7d0;">
+          <div class="status-dot" style="background:#16a34a;"></div>
+          Live
+        </div>
+      </div>
+
+      <div class="tool-card-body">
+        <div class="tool-desc">
+          VMD compliance monitoring untuk 135 store Erafone, iBox &amp; Samsung Store Region 5. Store Leader upload foto compliance, sistem menilai dan mengirim notifikasi WhatsApp otomatis ke 3 level jika ada yang belum comply.
+        </div>
+
+        <div class="feature-grid">
+          <div class="feature-item">
+            <div class="feature-dot" style="background:#d97706;"></div>
+            <div>
+              <div class="feature-name">Foto compliance upload</div>
+              <div class="feature-desc">Store Leader upload foto per poin VMD langsung dari HP</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-dot" style="background:#d97706;"></div>
+            <div>
+              <div class="feature-name">3-level WA escalation</div>
+              <div class="feature-desc">Auto notif Store → Area → Regional via Fonnte API</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-dot" style="background:#d97706;"></div>
+            <div>
+              <div class="feature-name">Compliance dashboard</div>
+              <div class="feature-desc">Overview compliance rate per area, brand, dan store</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-dot" style="background:#d97706;"></div>
+            <div>
+              <div class="feature-name">Weekly report generator</div>
+              <div class="feature-desc">Rekap compliance mingguan otomatis, siap kirim ke stakeholder</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-dot" style="background:#d97706;"></div>
+            <div>
+              <div class="feature-name">AI insights</div>
+              <div class="feature-desc">Token-efficient analysis via Claude API — tren &amp; rekomendasi</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-dot" style="background:#d97706;"></div>
+            <div>
+              <div class="feature-name">Activity log</div>
+              <div class="feature-desc">Histori compliance &amp; eskalasi per store, audit trail lengkap</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-card-footer">
+        <div class="tool-meta-badges">
+          <span class="mini-badge">135 stores</span>
+          <span class="mini-badge">Fonnte WA</span>
+          <span class="mini-badge">Claude AI</span>
+          <span class="mini-badge">Photo upload</span>
+        </div>
+        <a class="launch-btn" href="era-vis/index.html" style="background:#d97706;">
+          Buka ERA-VIS
+          <svg viewBox="0 0 13 13" fill="none">
+            <path d="M2 2h9v9M2 11L11 2" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- SIGNTAX-ERA tool card -->
+    <div class="tool-card">
+      <div class="tool-card-header">
+        <div class="tool-header-left">
+          <div class="tool-icon" style="background:#fffbeb;">
+            <svg viewBox="0 0 20 20" fill="none">
+              <rect x="3" y="3" width="14" height="14" rx="2" stroke="#d97706" stroke-width="1.5"/>
+              <path d="M7 8h6M7 11h4M7 14h2" stroke="#d97706" stroke-width="1.1" stroke-linecap="round"/>
+              <rect x="12" y="1" width="5" height="5" rx="1" fill="#fde68a" stroke="#d97706" stroke-width="1"/>
+              <path d="M13.5 3.5h2M13.5 4.5h1" stroke="#d97706" stroke-width="0.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <div class="tool-tag" style="color:#d97706;">RMO · Tool 2</div>
+            <div class="tool-name">SIGNTAX-ERA</div>
+          </div>
+        </div>
+        <div class="tool-status" style="color:#16a34a;background:#f0fdf4;border-color:#bbf7d0;">
+          <div class="status-dot" style="background:#16a34a;"></div>
+          Live
+        </div>
+      </div>
+
+      <div class="tool-card-body">
+        <div class="tool-desc">
+          Manajemen pajak reklame untuk 102 store Region 5 — monitoring jatuh tempo kontrak, reminder otomatis H-60/H-30/H-7 via WhatsApp, dan koordinasi dengan vendor ELFABI &amp; CAKRA.
+        </div>
+
+        <!-- Vendor row -->
+        <div class="vendor-row">
+          <div class="vendor-cell">
+            <div class="vendor-dot"></div>
+            <div>
+              <div class="vendor-name">ELFABI</div>
+              <div class="vendor-desc">Vendor pajak reklame utama</div>
+            </div>
+          </div>
+          <div class="vendor-cell">
+            <div class="vendor-dot"></div>
+            <div>
+              <div class="vendor-name">CAKRA</div>
+              <div class="vendor-desc">Vendor pajak reklame kedua</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-grid">
+          <div class="feature-item">
+            <div class="feature-dot" style="background:#d97706;"></div>
+            <div>
+              <div class="feature-name">Monitoring jatuh tempo</div>
+              <div class="feature-desc">Kalender pajak reklame semua store, filter per area &amp; vendor</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-dot" style="background:#d97706;"></div>
+            <div>
+              <div class="feature-name">Auto reminder H-60/30/7</div>
+              <div class="feature-desc">WhatsApp otomatis ke Store Leader &amp; Area via Fonnte</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-dot" style="background:#d97706;"></div>
+            <div>
+              <div class="feature-name">Drag-and-drop DB upload</div>
+              <div class="feature-desc">Update database Store Leader cukup drag file Excel/CSV</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-dot" style="background:#d97706;"></div>
+            <div>
+              <div class="feature-name">Vendor coordination</div>
+              <div class="feature-desc">Track status perpanjangan per vendor ELFABI &amp; CAKRA</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-card-footer">
+        <div class="tool-meta-badges">
+          <span class="mini-badge">102 stores</span>
+          <span class="mini-badge">Fonnte WA</span>
+          <span class="mini-badge">ELFABI</span>
+          <span class="mini-badge">CAKRA</span>
+          <span class="mini-badge">Drag &amp; drop</span>
+        </div>
+        <a class="launch-btn" href="signtax-era/index.html" style="background:#d97706;">
+          Buka SIGNTAX-ERA
+          <svg viewBox="0 0 13 13" fill="none">
+            <path d="M2 2h9v9M2 11L11 2" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-txt">SIERA Portal · RMO · v3.0</div>
+      <a class="footer-link" href="../../dashboard.html">← Kembali ke Dashboard</a>
+    </div>
+
+  </div>
+
+</body>
+</html>

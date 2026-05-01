@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RCM — SIERA Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #fff;
+      color: #111827;
+      min-height: 100vh;
+    }
+
+    /* ─── Navbar ─────────────────────────────────── */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      height: 68px;
+      border-bottom: 1px solid #f1f2f6;
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .nav-left { display: flex; align-items: center; gap: 14px; }
+    .nav-back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #7C3AED;
+      background: #f5f3ff;
+      border: none;
+      border-radius: 6px;
+      padding: 7px 13px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .nav-back:hover { opacity: 0.8; }
+    .nav-divider { width: 1px; height: 20px; background: #f1f2f6; }
+    .nav-brand { display: flex; align-items: center; gap: 10px; }
+    .nav-icon {
+      width: 34px;
+      height: 34px;
+      background: #7C3AED;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .nav-icon svg { width: 17px; height: 17px; }
+    .nav-title { font-size: 15px; font-weight: 800; color: #111827; letter-spacing: -0.3px; }
+    .nav-sub { font-size: 10px; color: #9ca3af; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; margin-top: 1px; }
+    .nav-right { display: flex; align-items: center; gap: 8px; }
+    .nav-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: #6d28d9;
+      background: #f5f3ff;
+      border: 1px solid #ddd6fe;
+      padding: 4px 10px;
+      border-radius: 6px;
+      letter-spacing: 0.3px;
+    }
+    .nav-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #7C3AED;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    /* ─── Main ───────────────────────────────────── */
+    .main { max-width: 860px; margin: 0 auto; padding: 32px 28px 56px; }
+
+    /* ─── Hero ───────────────────────────────────── */
+    .hero { margin-bottom: 28px; }
+    .hero-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: #7C3AED;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .hero-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: #111827;
+      letter-spacing: -0.8px;
+      line-height: 1.15;
+      margin-bottom: 6px;
+    }
+    .hero-desc {
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.6;
+      max-width: 480px;
+    }
+    .hero-meta { display: flex; align-items: center; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+    .meta-badge { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 6px; border: 1px solid; }
+
+    /* ─── Metric strip ───────────────────────────── */
+    .metric-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: #f1f2f6;
+      border: 1px solid #f1f2f6;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+    .metric-cell { background: #fff; padding: 16px 18px; }
+    .metric-label { font-size: 11px; color: #9ca3af; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 8px; }
+    .metric-val { font-size: 22px; font-weight: 800; color: #7C3AED; line-height: 1; letter-spacing: -0.5px; }
+    .metric-val span { font-size: 12px; font-weight: 500; color: #9ca3af; margin-left: 3px; }
+    .metric-trend { font-size: 12px; font-weight: 600; margin-top: 5px; }
+    .t-up   { color: #16a34a; }
+    .t-blue { color: #7C3AED; }
+
+    /* ─── 12 Dimensi block ───────────────────────── */
+    .dim-block {
+      border: 1px solid #ddd6fe;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      background: #f5f3ff;
+    }
+    .dim-block-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      border-bottom: 1px solid #ddd6fe;
+    }
+    .dim-block-title { font-size: 12px; font-weight: 700; color: #6d28d9; letter-spacing: 0.3px; }
+    .dim-count {
+      font-size: 11px;
+      font-weight: 600;
+      color: #7C3AED;
+      background: #fff;
+      border: 1px solid #ddd6fe;
+      padding: 3px 9px;
+      border-radius: 5px;
+    }
+    .dim-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: #ddd6fe;
+    }
+    .dim-item {
+      background: #fff;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .dim-num {
+      font-size: 10px;
+      font-weight: 800;
+      color: #ddd6fe;
+      width: 16px;
+      flex-shrink: 0;
+    }
+    .dim-name { font-size: 12px; font-weight: 600; color: #374151; }
+
+    /* ─── Decision row ───────────────────────────── */
+    .decision-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+    .decision-card {
+      border: 1px solid #f1f2f6;
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+    }
+    .decision-icon { font-size: 18px; margin-bottom: 6px; }
+    .decision-label { font-size: 12px; font-weight: 800; color: #111827; margin-bottom: 3px; }
+    .decision-desc { font-size: 11px; color: #9ca3af; line-height: 1.4; }
+
+    /* ─── Section label ──────────────────────────── */
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #9ca3af;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    /* ─── Tool card ──────────────────────────────── */
+    .tool-card {
+      border: 1px solid #f1f2f6;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      transition: border-color 0.15s;
+    }
+    .tool-card:hover { border-color: #ddd6fe; }
+    .tool-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 22px 16px;
+      border-bottom: 1px solid #f1f2f6;
+    }
+    .tool-header-left { display: flex; align-items: center; gap: 14px; }
+    .tool-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .tool-icon svg { width: 21px; height: 21px; }
+    .tool-tag { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 3px; }
+    .tool-name { font-size: 16px; font-weight: 800; color: #111827; letter-spacing: -0.3px; }
+    .tool-status {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 6px;
+      border: 1px solid;
+      flex-shrink: 0;
+    }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    .tool-card-body { padding: 18px 22px; }
+    .tool-desc { font-size: 13px; color: #6b7280; line-height: 1.65; margin-bottom: 16px; }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: #f1f2f6;
+      border: 1px solid #f1f2f6;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+    .feature-item {
+      background: #fff;
+      padding: 12px 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .feature-dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+    .feature-name { font-size: 12px; font-weight: 700; color: #111827; margin-bottom: 2px; }
+    .feature-desc { font-size: 11px; color: #9ca3af; line-height: 1.5; }
+
+    .tool-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 22px;
+      background: #fafafa;
+      border-top: 1px solid #f1f2f6;
+      gap: 12px;
+    }
+    .tool-meta-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+    .mini-badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 5px;
+      border: 1px solid #e5e7eb;
+      color: #6b7280;
+      background: #fff;
+    }
+    .launch-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.15s;
+      letter-spacing: 0.2px;
+      flex-shrink: 0;
+    }
+    .launch-btn:hover { opacity: 0.88; }
+    .launch-btn svg { width: 13px; height: 13px; }
+
+    /* ─── Coming soon card ───────────────────────── */
+    .coming-card {
+      border: 1px dashed #e5e7eb;
+      border-radius: 12px;
+      padding: 20px 22px;
+      margin-bottom: 16px;
+      background: #fafafa;
+    }
+    .coming-card-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .coming-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 9px;
+      background: #f1f2f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .coming-icon svg { width: 18px; height: 18px; }
+    .coming-name { font-size: 14px; font-weight: 800; color: #9ca3af; margin-bottom: 2px; }
+    .coming-desc { font-size: 11px; color: #d1d5db; }
+    .coming-pill {
+      margin-left: auto;
+      font-size: 10px;
+      font-weight: 700;
+      color: #9ca3af;
+      background: #f1f2f6;
+      padding: 4px 10px;
+      border-radius: 6px;
+      flex-shrink: 0;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .coming-features {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: #f1f2f6;
+      border: 1px solid #f1f2f6;
+      border-radius: 8px;
+      overflow: hidden;
+      opacity: 0.6;
+    }
+    .coming-feat {
+      background: #fff;
+      padding: 10px 12px;
+      font-size: 11px;
+      color: #9ca3af;
+      font-weight: 600;
+    }
+    .coming-feat span { display: block; font-size: 10px; font-weight: 500; color: #d1d5db; margin-top: 1px; }
+
+    /* ─── Info box ───────────────────────────────── */
+    .info-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: #f5f3ff;
+      border: 1px solid #ddd6fe;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 28px;
+    }
+    .info-box svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 1px; }
+    .info-text { font-size: 12px; color: #6d28d9; line-height: 1.6; font-weight: 500; }
+    .info-text strong { font-weight: 700; }
+
+    /* ─── Footer ─────────────────────────────────── */
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 20px;
+      border-top: 1px solid #f1f2f6;
+      margin-top: 8px;
+    }
+    .footer-txt { font-size: 11px; color: #d1d5db; font-weight: 500; }
+    .footer-link { font-size: 11px; font-weight: 600; color: #9ca3af; text-decoration: none; }
+    .footer-link:hover { color: #7C3AED; }
+
+    /* ─── Responsive ─────────────────────────────── */
+    @media (max-width: 640px) {
+      .nav { padding: 0 16px; }
+      .main { padding: 24px 16px 48px; }
+      .metric-strip { grid-template-columns: repeat(2, 1fr); }
+      .dim-grid { grid-template-columns: repeat(2, 1fr); }
+      .decision-row { grid-template-columns: repeat(2, 1fr); }
+      .feature-grid { grid-template-columns: 1fr; }
+      .coming-features { grid-template-columns: 1fr; }
+      .tool-card-footer { flex-direction: column; align-items: flex-start; }
+      .launch-btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════════════ -->
+  <nav class="nav">
+    <div class="nav-left">
+      <a class="nav-back" href="../../dashboard.html">← Dashboard</a>
+      <div class="nav-divider"></div>
+      <div class="nav-brand">
+        <div class="nav-icon">
+          <svg viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="10" r="7" stroke="#fff" stroke-width="1.5"/>
+            <circle cx="10" cy="10" r="3" fill="rgba(255,255,255,0.35)"/>
+            <path d="M4 10h3M13 10h3M10 4v3M10 13v3" stroke="#fff" stroke-width="1.1" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <div class="nav-title">RCM</div>
+          <div class="nav-sub">SIERA Portal · Region 5</div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-right">
+      <div class="nav-tag">RCM</div>
+      <div class="nav-avatar">GP</div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════
+       MAIN
+  ═══════════════════════════════════════════════ -->
+  <div class="main">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-tag">Division · RCM</div>
+      <div class="hero-title">Analytics &amp; Program</div>
+      <div class="hero-desc">Analisis performa toko secara mendalam, kelola program promosi, dan buat keputusan strategis berbasis data 12 dimensi dengan AI insights.</div>
+      <div class="hero-meta">
+        <span class="meta-badge" style="color:#7C3AED;border-color:#ddd6fe;background:#f5f3ff;">12 dimensi diagnostik</span>
+        <span class="meta-badge" style="color:#16a34a;border-color:#bbf7d0;background:#f0fdf4;">AI-powered</span>
+        <span class="meta-badge" style="color:#6b7280;border-color:#e5e7eb;background:#f9fafb;">102+ stores</span>
+      </div>
+    </div>
+
+    <!-- Metric strip -->
+    <div class="metric-strip">
+      <div class="metric-cell">
+        <div class="metric-label">Dimensi analisis</div>
+        <div class="metric-val">12 <span>dim</span></div>
+        <div class="metric-trend t-blue">Full diagnostic</div>
+      </div>
+      <div class="metric-cell">
+        <div class="metric-label">Output keputusan</div>
+        <div class="metric-val">4 <span>tipe</span></div>
+        <div class="metric-trend t-blue">Keep · Improve · Relocate · Close</div>
+      </div>
+      <div class="metric-cell">
+        <div class="metric-label">Tools aktif</div>
+        <div class="metric-val">1 <span>tool</span></div>
+        <div class="metric-trend t-up">ERA-ANALYTICS live</div>
+      </div>
+      <div class="metric-cell">
+        <div class="metric-label">Pipeline</div>
+        <div class="metric-val">Claude <span>AI</span></div>
+        <div class="metric-trend t-blue">Sonnet API</div>
+      </div>
+    </div>
+
+    <!-- 12 Dimensi block -->
+    <div class="dim-block">
+      <div class="dim-block-header">
+        <div class="dim-block-title">Store diagnostic framework — 12 dimensi</div>
+        <div class="dim-count">12 dimensi</div>
+      </div>
+      <div class="dim-grid">
+        <div class="dim-item"><div class="dim-num">01</div><div class="dim-name">Location</div></div>
+        <div class="dim-item"><div class="dim-num">02</div><div class="dim-name">VMD</div></div>
+        <div class="dim-item"><div class="dim-num">03</div><div class="dim-name">Financial</div></div>
+        <div class="dim-item"><div class="dim-num">04</div><div class="dim-name">Product Mix</div></div>
+        <div class="dim-item"><div class="dim-num">05</div><div class="dim-name">People</div></div>
+        <div class="dim-item"><div class="dim-num">06</div><div class="dim-name">Promo</div></div>
+        <div class="dim-item"><div class="dim-num">07</div><div class="dim-name">Digital</div></div>
+        <div class="dim-item"><div class="dim-num">08</div><div class="dim-name">Activity</div></div>
+        <div class="dim-item"><div class="dim-num">09</div><div class="dim-name">Traffic</div></div>
+        <div class="dim-item"><div class="dim-num">10</div><div class="dim-name">Competitor</div></div>
+        <div class="dim-item"><div class="dim-num">11</div><div class="dim-name">Customer</div></div>
+        <div class="dim-item"><div class="dim-num">12</div><div class="dim-name">Operations</div></div>
+      </div>
+    </div>
+
+    <!-- Decision row -->
+    <div class="decision-row">
+      <div class="decision-card" style="border-color:#bbf7d0;background:#f0fdf4;">
+        <div class="decision-icon">✅</div>
+        <div class="decision-label" style="color:#15803d;">Keep</div>
+        <div class="decision-desc">Toko performa baik, pertahankan strategi saat ini</div>
+      </div>
+      <div class="decision-card" style="border-color:#c7d2fe;background:#eef2ff;">
+        <div class="decision-icon">🔧</div>
+        <div class="decision-label" style="color:#3730a3;">Improve</div>
+        <div class="decision-desc">Ada gap, butuh intervensi &amp; program perbaikan</div>
+      </div>
+      <div class="decision-card" style="border-color:#fde68a;background:#fffbeb;">
+        <div class="decision-icon">📍</div>
+        <div class="decision-label" style="color:#92400e;">Relocate</div>
+        <div class="decision-desc">Lokasi tidak optimal, pertimbangkan pindah area</div>
+      </div>
+      <div class="decision-card" style="border-color:#fecaca;background:#fef2f2;">
+        <div class="decision-icon">🔴</div>
+        <div class="decision-label" style="color:#b91c1c;">Close</div>
+        <div class="decision-desc">Tidak viable, rekomendasikan penutupan toko</div>
+      </div>
+    </div>
+
+    <!-- Section: Tools aktif -->
+    <div class="section-label">Tools aktif</div>
+
+    <!-- ERA-ANALYTICS card -->
+    <div class="tool-card">
+      <div class="tool-card-header">
+        <div class="tool-header-left">
+          <div class="tool-icon" style="background:#f5f3ff;">
+            <svg viewBox="0 0 20 20" fill="none">
+              <circle cx="10" cy="10" r="7" stroke="#7C3AED" stroke-width="1.5"/>
+              <circle cx="10" cy="10" r="3" fill="#DDD6FE" opacity="0.7"/>
+              <path d="M4 10h3M13 10h3M10 4v3M10 13v3" stroke="#7C3AED" stroke-width="1.1" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <div class="tool-tag" style="color:#7C3AED;">RCM · Tool</div>
+            <div class="tool-name">ERA-ANALYTICS</div>
+          </div>
+        </div>
+        <div class="tool-status" style="color:#16a34a;background:#f0fdf4;border-color:#bbf7d0;">
+          <div class="status-dot" style="background:#16a34a;"></div>
+          Live
+        </div>
+      </div>
+
+      <div class="tool-card-body">
+        <div class="tool-desc">
+          Store diagnostic framework berbasis 12 dimensi untuk mengevaluasi performa toko secara komprehensif. Setiap dimensi menghasilkan skor yang dikombinasikan AI untuk menghasilkan rekomendasi strategis: Keep, Improve, Relocate, atau Close.
+        </div>
+
+        <div class="feature-grid">
+          <div class="feature-item">
+            <div class="feature-dot" style="background:#7C3AED;"></div>
+            <div>
+              <div class="feature-name">12-dimensi scoring</div>
+              <div class="feature-desc">Input per dimensi, bobot otomatis, skor agregat per toko</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-dot" style="background:#7C3AED;"></div>
+            <div>
+              <div class="feature-name">AI recommendation</div>
+              <div class="feature-desc">Claude API analisis pola, output Keep/Improve/Relocate/Close</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-dot" style="background:#7C3AED;"></div>
+            <div>
+              <div class="feature-name">Store comparison</div>
+              <div class="feature-desc">Bandingkan performa antar toko dalam satu area atau brand</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-dot" style="background:#7C3AED;"></div>
+            <div>
+              <div class="feature-name">Diagnostic report</div>
+              <div class="feature-desc">Export laporan per toko dengan narasi &amp; rekomendasi aksi</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-dot" style="background:#7C3AED;"></div>
+            <div>
+              <div class="feature-name">Historical tracking</div>
+              <div class="feature-desc">Track progress skor toko dari waktu ke waktu</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-dot" style="background:#7C3AED;"></div>
+            <div>
+              <div class="feature-name">Priority heatmap</div>
+              <div class="feature-desc">Visual mana toko yang paling butuh perhatian segera</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-card-footer">
+        <div class="tool-meta-badges">
+          <span class="mini-badge">Claude AI</span>
+          <span class="mini-badge">Google Sheets</span>
+          <span class="mini-badge">12 dimensi</span>
+          <span class="mini-badge">102+ stores</span>
+        </div>
+        <a class="launch-btn" href="modules/RCM/era-analytics/index.html" style="background:#7C3AED;">
+          Buka ERA-ANALYTICS
+          <svg viewBox="0 0 13 13" fill="none">
+            <path d="M2 2h9v9M2 11L11 2" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Section: Planned -->
+    <div class="section-label" style="margin-top: 8px;">Planned</div>
+
+    <!-- ERA-PROMO coming soon card -->
+    <div class="coming-card">
+      <div class="coming-card-header">
+        <div class="coming-icon">
+          <svg viewBox="0 0 18 18" fill="none">
+            <path d="M3 9l3 3 5-6" stroke="#d1d5db" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="13" cy="5" r="3" stroke="#d1d5db" stroke-width="1.2"/>
+            <path d="M13 4v2M13 7v.5" stroke="#d1d5db" stroke-width="1.1" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <div class="coming-name">ERA-PROMO</div>
+          <div class="coming-desc">Program promosi, budget allocation, dan ROI measurement</div>
+        </div>
+        <div class="coming-pill">Planned</div>
+      </div>
+      <div class="coming-features">
+        <div class="coming-feat">
+          Buat &amp; kelola program promo
+          <span>Create, assign target, track progress</span>
+        </div>
+        <div class="coming-feat">
+          Budget allocation
+          <span>Per store, per area, per brand</span>
+        </div>
+        <div class="coming-feat">
+          ROI measurement
+          <span>Cost vs. incremental sales per kampanye</span>
+        </div>
+        <div class="coming-feat">
+          Special project pipeline
+          <span>Project khusus lintas area &amp; brand</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info box -->
+    <div class="info-box" style="margin-top: 8px;">
+      <svg viewBox="0 0 16 16" fill="none">
+        <circle cx="8" cy="8" r="7" stroke="#7C3AED" stroke-width="1.2"/>
+        <path d="M8 7v5M8 5.5v-.5" stroke="#7C3AED" stroke-width="1.3" stroke-linecap="round"/>
+      </svg>
+      <div class="info-text">
+        <strong>ERA-PROMO</strong> sedang dalam tahap perencanaan. Requirement dikumpulkan dari RCM team sebelum development dimulai. Estimasi Q2 2026.
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-txt">SIERA Portal · RCM · v3.0</div>
+      <a class="footer-link" href="../../dashboard.html">← Kembali ke Dashboard</a>
+    </div>
+
+  </div>
+
+</body>
+</html>

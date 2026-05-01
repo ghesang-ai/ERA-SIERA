@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — SIERA Portal</title>
+  <meta name="description" content="Smart Integrated Erajaya Retail Analytics — Dashboard internal Region 5">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #fff;
+      color: #111827;
+      min-height: 100vh;
+    }
+
+    /* ─── Navbar ─────────────────────────────────── */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      height: 68px;
+      border-bottom: 1px solid #f1f2f6;
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .nav-logo {
+      width: 36px;
+      height: 36px;
+      background: #4F46E5;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .nav-logo svg { width: 18px; height: 18px; }
+    .nav-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #111827;
+      letter-spacing: -0.5px;
+      line-height: 1;
+    }
+    .nav-title span { color: #4F46E5; }
+    .nav-sub {
+      font-size: 10px;
+      color: #9ca3af;
+      letter-spacing: 0.8px;
+      font-weight: 500;
+      margin-top: 2px;
+      text-transform: uppercase;
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav-status {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      color: #16a34a;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+    .nav-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #16a34a;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .nav-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: #4F46E5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.5px;
+    }
+
+    /* ─── Main layout ────────────────────────────── */
+    .main { max-width: 1100px; margin: 0 auto; padding: 0 28px 40px; }
+
+    /* ─── Hero ───────────────────────────────────── */
+    .hero { padding: 28px 0 20px; }
+    .hero-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: #4F46E5;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .hero-title {
+      font-size: 28px;
+      font-weight: 800;
+      color: #111827;
+      letter-spacing: -0.8px;
+      line-height: 1.15;
+      margin-bottom: 4px;
+    }
+    .hero-title span { color: #4F46E5; }
+    .hero-desc {
+      font-size: 13px;
+      color: #6b7280;
+      font-weight: 500;
+    }
+
+    /* ─── Metric row ─────────────────────────────── */
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: #f1f2f6;
+      border: 1px solid #f1f2f6;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+    .metric-cell {
+      background: #fff;
+      padding: 16px;
+      transition: background 0.15s;
+    }
+    .metric-cell:hover { background: #fafafa; }
+    .metric-label {
+      font-size: 11px;
+      color: #9ca3af;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .metric-val {
+      font-size: 24px;
+      font-weight: 800;
+      color: #111827;
+      line-height: 1;
+      letter-spacing: -0.5px;
+    }
+    .metric-val span {
+      font-size: 12px;
+      font-weight: 500;
+      color: #9ca3af;
+      margin-left: 3px;
+    }
+    .metric-trend {
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+    .t-up    { color: #16a34a; }
+    .t-warn  { color: #d97706; }
+    .t-blue  { color: #4F46E5; }
+
+    /* ─── Section label ──────────────────────────── */
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #9ca3af;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    /* ─── Division grid ──────────────────────────── */
+    .div-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: #f1f2f6;
+      border: 1px solid #f1f2f6;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+    .div-card {
+      background: #fff;
+      padding: 22px;
+      cursor: pointer;
+      transition: background 0.15s;
+      position: relative;
+      border: none;
+      text-align: left;
+      font-family: 'DM Sans', sans-serif;
+      width: 100%;
+    }
+    .div-card:hover { background: #fafafa; }
+
+    .div-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .div-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .div-icon svg { width: 20px; height: 20px; }
+    .div-arrow {
+      width: 28px;
+      height: 28px;
+      border: 1px solid #f1f2f6;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.15s;
+      flex-shrink: 0;
+    }
+    .div-card:hover .div-arrow { opacity: 1; }
+    .div-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .div-name {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      margin-bottom: 6px;
+      color: #111827;
+    }
+    .div-desc {
+      font-size: 12px;
+      color: #6b7280;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .div-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .tool-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid;
+    }
+    .div-divider {
+      height: 1px;
+      background: #f1f2f6;
+      margin-bottom: 14px;
+    }
+    .div-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .div-stat {
+      text-align: center;
+      padding: 0 8px;
+    }
+    .div-stat:not(:last-child) { border-right: 1px solid #f1f2f6; }
+    .div-stat-num {
+      font-size: 16px;
+      font-weight: 800;
+      display: block;
+      line-height: 1.2;
+    }
+    .div-stat-lbl {
+      font-size: 10px;
+      color: #9ca3af;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* ─── Detail panel ───────────────────────────── */
+    .detail-panel {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #fff;
+      z-index: 100;
+      overflow-y: auto;
+      animation: slide-in 0.2s ease;
+    }
+    @keyframes slide-in {
+      from { opacity: 0; transform: translateX(14px); }
+      to   { opacity: 1; transform: none; }
+    }
+    .detail-panel.open { display: block; }
+
+    .detail-nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 28px;
+      border-bottom: 1px solid #f1f2f6;
+      position: sticky;
+      top: 0;
+      background: #fff;
+      z-index: 5;
+    }
+    .detail-back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #4F46E5;
+      background: #eef2ff;
+      border: none;
+      border-radius: 6px;
+      padding: 7px 14px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: opacity 0.15s;
+    }
+    .detail-back:hover { opacity: 0.8; }
+    .detail-nav-title {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+      color: #111827;
+    }
+
+    .detail-body {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+    .detail-hero {
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 16px;
+      border: 1px solid;
+    }
+    .detail-hero-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .detail-hero-name {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+      margin-bottom: 6px;
+    }
+    .detail-hero-desc {
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.65;
+    }
+
+    .detail-modules {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: #f1f2f6;
+      border: 1px solid #f1f2f6;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .detail-mod {
+      background: #fff;
+      padding: 14px;
+    }
+    .detail-mod-name {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .detail-mod-desc {
+      font-size: 11px;
+      color: #6b7280;
+      line-height: 1.55;
+    }
+
+    .detail-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: #f1f2f6;
+      border: 1px solid #f1f2f6;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .detail-stat {
+      background: #fff;
+      padding: 14px;
+      text-align: center;
+    }
+    .detail-stat-num {
+      font-size: 20px;
+      font-weight: 800;
+      display: block;
+      line-height: 1.2;
+    }
+    .detail-stat-lbl {
+      font-size: 10px;
+      color: #9ca3af;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .detail-btn {
+      display: block;
+      width: 100%;
+      padding: 13px;
+      border-radius: 8px;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      letter-spacing: 0.2px;
+      text-decoration: none;
+      text-align: center;
+      color: #fff;
+    }
+    .detail-btn:hover { opacity: 0.88; }
+
+    /* ─── Footer ─────────────────────────────────── */
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-top: 1px solid #f1f2f6;
+      margin-top: 4px;
+    }
+    .footer-txt {
+      font-size: 11px;
+      color: #d1d5db;
+      font-weight: 500;
+    }
+    .footer-badges { display: flex; gap: 6px; }
+    .footer-badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: #f9fafb;
+      border: 1px solid #f1f2f6;
+      color: #9ca3af;
+    }
+
+    /* ─── Responsive ─────────────────────────────── */
+    @media (max-width: 680px) {
+      .nav { padding: 0 16px; }
+      .main { padding: 0 16px 40px; }
+      .metric-row { grid-template-columns: repeat(2, 1fr); }
+      .div-grid { grid-template-columns: 1fr; }
+      .detail-nav { padding: 14px 16px; }
+      .detail-body { padding: 20px 16px; }
+      .detail-modules { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════════════ -->
+  <nav class="nav">
+    <div class="nav-brand">
+      <div class="nav-logo">
+        <svg viewBox="0 0 18 18" fill="none">
+          <rect x="2" y="2" width="6" height="6" rx="1.5" fill="#fff"/>
+          <rect x="10" y="2" width="6" height="6" rx="1.5" fill="rgba(255,255,255,0.4)"/>
+          <rect x="2" y="10" width="6" height="6" rx="1.5" fill="rgba(255,255,255,0.4)"/>
+          <rect x="10" y="10" width="6" height="6" rx="1.5" fill="#fff"/>
+        </svg>
+      </div>
+      <div>
+        <div class="nav-title">SI<span>ERA</span></div>
+        <div class="nav-sub">Region 5 · Erajaya Digital</div>
+      </div>
+    </div>
+    <div class="nav-right">
+      <div class="nav-status">
+        <div class="nav-dot"></div>
+        System online
+      </div>
+      <div class="nav-avatar">GP</div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════
+       MAIN CONTENT
+  ═══════════════════════════════════════════════ -->
+  <div class="main">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-tag">Smart Integrated Erajaya Retail Analytics</div>
+      <div class="hero-title">Halo, <span>Ghesang!</span></div>
+      <div class="hero-desc">Region 5 · Jakarta · Tangerang · Banten · 102+ stores aktif</div>
+    </div>
+
+    <!-- Metric row -->
+    <div class="metric-row">
+      <div class="metric-cell">
+        <div class="metric-label">Total stores</div>
+        <div class="metric-val">102 <span>aktif</span></div>
+        <div class="metric-trend t-up">▲ Semua online</div>
+      </div>
+      <div class="metric-cell">
+        <div class="metric-label">Sales today</div>
+        <div class="metric-val">— <span>unit</span></div>
+        <div class="metric-trend t-blue">Hubungkan ERA-SALES</div>
+      </div>
+      <div class="metric-cell">
+        <div class="metric-label">VMD compliance</div>
+        <div class="metric-val">— <span>%</span></div>
+        <div class="metric-trend t-warn">Hubungkan ERA-VIS</div>
+      </div>
+      <div class="metric-cell">
+        <div class="metric-label">Promo aktif</div>
+        <div class="metric-val">— <span>promo</span></div>
+        <div class="metric-trend t-blue">Hubungkan ERA-PROMO</div>
+      </div>
+    </div>
+
+    <!-- Section label -->
+    <div class="section-label">Division modules</div>
+
+    <!-- Division cards -->
+    <div class="div-grid">
+
+      <!-- OPERATIONS -->
+      <button class="div-card" onclick="openDetail('operations')" aria-label="Buka modul Operations">
+        <div class="div-card-top">
+          <div class="div-icon" style="background:#eef2ff;">
+            <svg viewBox="0 0 20 20" fill="none">
+              <rect x="2" y="11" width="3" height="7" rx="1" fill="#4F46E5"/>
+              <rect x="8" y="7" width="3" height="11" rx="1" fill="#4F46E5" opacity="0.55"/>
+              <rect x="14" y="3" width="3" height="15" rx="1" fill="#4F46E5" opacity="0.3"/>
+              <path d="M2 10l5-3 5 3 5-5" stroke="#4F46E5" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="div-arrow">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+              <path d="M2 2h7v7M2 9L9 2" stroke="#4F46E5" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="div-tag" style="color:#4F46E5;">Operations</div>
+        <div class="div-name">Sales &amp; daily ops</div>
+        <div class="div-desc">Monitor performa penjualan harian &amp; mingguan seluruh store Region 5 secara real-time.</div>
+        <div class="div-tools">
+          <span class="tool-badge" style="color:#3730a3;border-color:#c7d2fe;background:#eef2ff;">ERA-SALES</span>
+          <span class="tool-badge" style="color:#16a34a;border-color:#bbf7d0;background:#f0fdf4;">Live data</span>
+        </div>
+        <div class="div-divider"></div>
+        <div class="div-stats">
+          <div class="div-stat"><span class="div-stat-num" style="color:#4F46E5;">102</span><span class="div-stat-lbl">Stores</span></div>
+          <div class="div-stat"><span class="div-stat-num" style="color:#4F46E5;">Daily</span><span class="div-stat-lbl">Update</span></div>
+          <div class="div-stat"><span class="div-stat-num" style="color:#16a34a;">Live</span><span class="div-stat-lbl">Status</span></div>
+        </div>
+      </button>
+
+      <!-- RCM -->
+      <button class="div-card" onclick="openDetail('rcm')" aria-label="Buka modul RCM">
+        <div class="div-card-top">
+          <div class="div-icon" style="background:#f5f3ff;">
+            <svg viewBox="0 0 20 20" fill="none">
+              <circle cx="10" cy="10" r="7" stroke="#7C3AED" stroke-width="1.5"/>
+              <circle cx="10" cy="10" r="3" fill="#DDD6FE" opacity="0.7"/>
+              <path d="M4 10h3M13 10h3M10 4v3M10 13v3" stroke="#7C3AED" stroke-width="1.1" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="div-arrow">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+              <path d="M2 2h7v7M2 9L9 2" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="div-tag" style="color:#7C3AED;">RCM</div>
+        <div class="div-name">Analytics &amp; program</div>
+        <div class="div-desc">Analisis data toko, buat program promosi, dan kelola special project dengan AI insights.</div>
+        <div class="div-tools">
+          <span class="tool-badge" style="color:#6d28d9;border-color:#ddd6fe;background:#f5f3ff;">ERA-ANALYTICS</span>
+          <span class="tool-badge" style="color:#6d28d9;border-color:#ddd6fe;background:#f5f3ff;">ERA-PROMO</span>
+        </div>
+        <div class="div-divider"></div>
+        <div class="div-stats">
+          <div class="div-stat"><span class="div-stat-num" style="color:#7C3AED;">12</span><span class="div-stat-lbl">Dimensi</span></div>
+          <div class="div-stat"><span class="div-stat-num" style="color:#7C3AED;">4</span><span class="div-stat-lbl">Decisions</span></div>
+          <div class="div-stat"><span class="div-stat-num" style="color:#16a34a;">AI</span><span class="div-stat-lbl">Powered</span></div>
+        </div>
+      </button>
+
+      <!-- RMO -->
+      <button class="div-card" onclick="openDetail('rmo')" aria-label="Buka modul RMO">
+        <div class="div-card-top">
+          <div class="div-icon" style="background:#fffbeb;">
+            <svg viewBox="0 0 20 20" fill="none">
+              <rect x="2" y="5" width="16" height="11" rx="2" stroke="#d97706" stroke-width="1.5"/>
+              <path d="M6 9h8M6 12h5" stroke="#d97706" stroke-width="1.1" stroke-linecap="round"/>
+              <circle cx="16" cy="5" r="3" fill="#fde68a" stroke="#d97706" stroke-width="1"/>
+            </svg>
+          </div>
+          <div class="div-arrow">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+              <path d="M2 2h7v7M2 9L9 2" stroke="#d97706" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="div-tag" style="color:#d97706;">RMO</div>
+        <div class="div-name">VMD &amp; activity</div>
+        <div class="div-desc">Monitor visual merchandising compliance &amp; kelola pajak reklame dengan notifikasi WA otomatis.</div>
+        <div class="div-tools">
+          <span class="tool-badge" style="color:#92400e;border-color:#fde68a;background:#fffbeb;">ERA-VIS</span>
+          <span class="tool-badge" style="color:#92400e;border-color:#fde68a;background:#fffbeb;">SIGNTAX-ERA</span>
+        </div>
+        <div class="div-divider"></div>
+        <div class="div-stats">
+          <div class="div-stat"><span class="div-stat-num" style="color:#d97706;">135</span><span class="div-stat-lbl">Stores</span></div>
+          <div class="div-stat"><span class="div-stat-num" style="color:#d97706;">3</span><span class="div-stat-lbl">Level esk.</span></div>
+          <div class="div-stat"><span class="div-stat-num" style="color:#16a34a;">Auto</span><span class="div-stat-lbl">WA notif</span></div>
+        </div>
+      </button>
+
+      <!-- RCD -->
+      <button class="div-card" onclick="openDetail('rcd')" aria-label="Buka modul RCD">
+        <div class="div-card-top">
+          <div class="div-icon" style="background:#fff7ed;">
+            <svg viewBox="0 0 20 20" fill="none">
+              <path d="M10 2L18 7v6L10 18 2 13V7L10 2z" stroke="#ea580c" stroke-width="1.5" stroke-linejoin="round"/>
+              <circle cx="10" cy="10" r="3" stroke="#ea580c" stroke-width="1" opacity="0.4"/>
+            </svg>
+          </div>
+          <div class="div-arrow">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+              <path d="M2 2h7v7M2 9L9 2" stroke="#ea580c" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="div-tag" style="color:#ea580c;">RCD</div>
+        <div class="div-name">Site &amp; channel</div>
+        <div class="div-desc">Kelola pipeline site acquisition, channel development, dan maintenance seluruh store.</div>
+        <div class="div-tools">
+          <span class="tool-badge" style="color:#c2410c;border-color:#fed7aa;background:#fff7ed;">ERA-SITE</span>
+          <span class="tool-badge" style="color:#9ca3af;border-color:#f1f2f6;background:#f9fafb;">Coming soon</span>
+        </div>
+        <div class="div-divider"></div>
+        <div class="div-stats">
+          <div class="div-stat"><span class="div-stat-num" style="color:#ea580c;">TBC</span><span class="div-stat-lbl">Tools</span></div>
+          <div class="div-stat"><span class="div-stat-num" style="color:#ea580c;">Q2</span><span class="div-stat-lbl">Target</span></div>
+          <div class="div-stat"><span class="div-stat-num" style="color:#d97706;">WIP</span><span class="div-stat-lbl">Status</span></div>
+        </div>
+      </button>
+
+    </div><!-- /div-grid -->
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-txt">SIERA v3.0 · si-era.netlify.app</div>
+      <div class="footer-badges">
+        <div class="footer-badge">Netlify</div>
+        <div class="footer-badge">Sheets API</div>
+        <div class="footer-badge">Claude AI</div>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+
+
+  <!-- ═══════════════════════════════════════════════
+       DETAIL PANEL — OPERATIONS
+  ═══════════════════════════════════════════════ -->
+  <div class="detail-panel" id="dp-operations" role="dialog" aria-modal="true" aria-label="Detail Operations">
+    <div class="detail-nav">
+      <button class="detail-back" onclick="closeDetail()">← Kembali</button>
+      <div class="detail-nav-title">Operations — ERA-SALES</div>
+    </div>
+    <div class="detail-body">
+      <div class="detail-hero" style="background:#eef2ff;border-color:#c7d2fe;">
+        <div class="detail-hero-tag" style="color:#4F46E5;">Module · Operations</div>
+        <div class="detail-hero-name" style="color:#3730a3;">ERA-SALES</div>
+        <div class="detail-hero-desc">Dashboard penjualan real-time untuk 102+ store Erafone, iBox &amp; Samsung Store Region 5. Update harian dan mingguan dengan target tracking otomatis dan AI insights.</div>
+      </div>
+      <div class="detail-modules">
+        <div class="detail-mod">
+          <div class="detail-mod-name" style="color:#4F46E5;">Daily sales</div>
+          <div class="detail-mod-desc">Update per hari, ranking toko, alert merah/hijau vs target</div>
+        </div>
+        <div class="detail-mod">
+          <div class="detail-mod-name" style="color:#4F46E5;">Weekly report</div>
+          <div class="detail-mod-desc">Rekap mingguan otomatis, trend &amp; perbandingan antar store</div>
+        </div>
+        <div class="detail-mod">
+          <div class="detail-mod-name" style="color:#4F46E5;">Target tracking</div>
+          <div class="detail-mod-desc">Progress target per store, heatmap pencapaian</div>
+        </div>
+        <div class="detail-mod">
+          <div class="detail-mod-name" style="color:#4F46E5;">AI insights</div>
+          <div class="detail-mod-desc">Analisis otomatis via Claude API, rekomendasi aksi per store</div>
+        </div>
+      </div>
+      <div class="detail-stats">
+        <div class="detail-stat"><span class="detail-stat-num" style="color:#4F46E5;">102+</span><span class="detail-stat-lbl">Stores</span></div>
+        <div class="detail-stat"><span class="detail-stat-num" style="color:#4F46E5;">Daily</span><span class="detail-stat-lbl">Update</span></div>
+        <div class="detail-stat"><span class="detail-stat-num" style="color:#16a34a;">Live</span><span class="detail-stat-lbl">Status</span></div>
+      </div>
+      <a class="detail-btn" href="modules/OPERATIONS/index.html" style="background:#4F46E5;">
+        Buka ERA-SALES ↗
+      </a>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       DETAIL PANEL — RCM
+  ═══════════════════════════════════════════════ -->
+  <div class="detail-panel" id="dp-rcm" role="dialog" aria-modal="true" aria-label="Detail RCM">
+    <div class="detail-nav">
+      <button class="detail-back" onclick="closeDetail()">← Kembali</button>
+      <div class="detail-nav-title">RCM — Analytics &amp; Program</div>
+    </div>
+    <div class="detail-body">
+      <div class="detail-hero" style="background:#f5f3ff;border-color:#ddd6fe;">
+        <div class="detail-hero-tag" style="color:#7C3AED;">Module · RCM</div>
+        <div class="detail-hero-name" style="color:#6d28d9;">ERA-ANALYTICS + ERA-PROMO</div>
+        <div class="detail-hero-desc">Store diagnostic 12 dimensi menghasilkan keputusan Keep/Improve/Relocate/Close. Plus ERA-PROMO untuk tracking program promosi dan ROI kampanye seluruh Region 5.</div>
+      </div>
+      <div class="detail-modules">
+        <div class="detail-mod">
+          <div class="detail-mod-name" style="color:#7C3AED;">Store diagnostic</div>
+          <div class="detail-mod-desc">12 dimensi: Location, VMD, Financial, People, Promo, Digital, dll</div>
+        </div>
+        <div class="detail-mod">
+          <div class="detail-mod-name" style="color:#7C3AED;">ERA-PROMO</div>
+          <div class="detail-mod-desc">Buat &amp; tracking program promo, budget allocation, ROI measurement</div>
+        </div>
+        <div class="detail-mod">
+          <div class="detail-mod-name" style="color:#7C3AED;">Special project</div>
+          <div class="detail-mod-desc">Pipeline management project khusus per area/brand</div>
+        </div>
+        <div class="detail-mod">
+          <div class="detail-mod-name" style="color:#7C3AED;">Decision engine</div>
+          <div class="detail-mod-desc">AI-powered: Keep, Improve, Relocate, atau Close</div>
+        </div>
+      </div>
+      <div class="detail-stats">
+        <div class="detail-stat"><span class="detail-stat-num" style="color:#7C3AED;">12</span><span class="detail-stat-lbl">Dimensi</span></div>
+        <div class="detail-stat"><span class="detail-stat-num" style="color:#7C3AED;">4</span><span class="detail-stat-lbl">Keputusan</span></div>
+        <div class="detail-stat"><span class="detail-stat-num" style="color:#16a34a;">AI</span><span class="detail-stat-lbl">Powered</span></div>
+      </div>
+      <a class="detail-btn" href="modules/RCM/index.html" style="background:#7C3AED;">
+        Buka ERA-ANALYTICS ↗
+      </a>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       DETAIL PANEL — RMO
+  ═══════════════════════════════════════════════ -->
+  <div class="detail-panel" id="dp-rmo" role="dialog" aria-modal="true" aria-label="Detail RMO">
+    <div class="detail-nav">
+      <button class="detail-back" onclick="closeDetail()">← Kembali</button>
+      <div class="detail-nav-title">RMO — VMD &amp; Activity</div>
+    </div>
+    <div class="detail-body">
+      <div class="detail-hero" style="background:#fffbeb;border-color:#fde68a;">
+        <div class="detail-hero-tag" style="color:#d97706;">Module · RMO</div>
+        <div class="detail-hero-name" style="color:#92400e;">ERA-VIS + SIGNTAX-ERA</div>
+        <div class="detail-hero-desc">VMD compliance monitoring 135 store dengan eskalasi WA 3 level otomatis (Store → Area → Regional), plus manajemen pajak reklame H-60/H-30/H-7 via Fonnte API.</div>
+      </div>
+      <div class="detail-modules">
+        <div class="detail-mod">
+          <div class="detail-mod-name" style="color:#d97706;">VMD compliance</div>
+          <div class="detail-mod-desc">Monitor 135 store, foto compliance, weekly report generator</div>
+        </div>
+        <div class="detail-mod">
+          <div class="detail-mod-name" style="color:#d97706;">WA escalation</div>
+          <div class="detail-mod-desc">3-level auto: Store → Area → Regional via Fonnte</div>
+        </div>
+        <div class="detail-mod">
+          <div class="detail-mod-name" style="color:#d97706;">SIGNTAX-ERA</div>
+          <div class="detail-mod-desc">Pajak reklame 102 store, ELFABI &amp; CAKRA, reminder otomatis</div>
+        </div>
+        <div class="detail-mod">
+          <div class="detail-mod-name" style="color:#d97706;">Activity log</div>
+          <div class="detail-mod-desc">Histori aktivitas VMD, dokumentasi, audit trail per store</div>
+        </div>
+      </div>
+      <div class="detail-stats">
+        <div class="detail-stat"><span class="detail-stat-num" style="color:#d97706;">135</span><span class="detail-stat-lbl">Stores</span></div>
+        <div class="detail-stat"><span class="detail-stat-num" style="color:#d97706;">3</span><span class="detail-stat-lbl">Level esk.</span></div>
+        <div class="detail-stat"><span class="detail-stat-num" style="color:#16a34a;">Auto</span><span class="detail-stat-lbl">Notif</span></div>
+      </div>
+      <a class="detail-btn" href="modules/RMO/index.html" style="background:#d97706;">
+        Buka ERA-VIS ↗
+      </a>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       DETAIL PANEL — RCD
+  ═══════════════════════════════════════════════ -->
+  <div class="detail-panel" id="dp-rcd" role="dialog" aria-modal="true" aria-label="Detail RCD">
+    <div class="detail-nav">
+      <button class="detail-back" onclick="closeDetail()">← Kembali</button>
+      <div class="detail-nav-title">RCD — Site &amp; Channel</div>
+    </div>
+    <div class="detail-body">
+      <div class="detail-hero" style="background:#fff7ed;border-color:#fed7aa;">
+        <div class="detail-hero-tag" style="color:#ea580c;">Module · RCD · Coming soon</div>
+        <div class="detail-hero-name" style="color:#c2410c;">ERA-SITE</div>
+        <div class="detail-hero-desc">Pipeline management untuk site acquisition, channel development, dan maintenance tracking seluruh store Region 5. Tahap perencanaan — requirement dikonfirmasi bersama RCD team.</div>
+      </div>
+      <div class="detail-modules">
+        <div class="detail-mod" style="opacity:0.65;">
+          <div class="detail-mod-name" style="color:#ea580c;">Site acquisition</div>
+          <div class="detail-mod-desc">Pipeline lokasi baru, prospek, negosiasi, status kontrak</div>
+        </div>
+        <div class="detail-mod" style="opacity:0.65;">
+          <div class="detail-mod-name" style="color:#ea580c;">Channel dev</div>
+          <div class="detail-mod-desc">Tracking pengembangan: Erafone, iBox, Samsung Store</div>
+        </div>
+        <div class="detail-mod" style="opacity:0.65;">
+          <div class="detail-mod-name" style="color:#ea580c;">Maintenance</div>
+          <div class="detail-mod-desc">Jadwal maintenance, tiket perbaikan, vendor management</div>
+        </div>
+        <div class="detail-mod" style="opacity:0.65;">
+          <div class="detail-mod-name" style="color:#ea580c;">Renewal alert</div>
+          <div class="detail-mod-desc">Reminder kontrak sewa mendekati jatuh tempo per store</div>
+        </div>
+      </div>
+      <div class="detail-stats">
+        <div class="detail-stat"><span class="detail-stat-num" style="color:#ea580c;">TBC</span><span class="detail-stat-lbl">Scope</span></div>
+        <div class="detail-stat"><span class="detail-stat-num" style="color:#ea580c;">Q2</span><span class="detail-stat-lbl">Target</span></div>
+        <div class="detail-stat"><span class="detail-stat-num" style="color:#d97706;">WIP</span><span class="detail-stat-lbl">Status</span></div>
+      </div>
+      <a class="detail-btn" href="modules/RCD/index.html" style="background:#ea580c;">
+        Lihat ERA-SITE ↗
+      </a>
+    </div>
+  </div>
+
+
+  <script>
+    function openDetail(division) {
+      document.getElementById('dp-' + division).classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDetail() {
+      document.querySelectorAll('.detail-panel').forEach(function(p) {
+        p.classList.remove('open');
+      });
+      document.body.style.overflow = '';
+    }
+
+    // Close panel on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeDetail();
+    });
+  </script>
+
+</body>
+</html>
