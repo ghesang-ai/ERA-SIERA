@@ -6,7 +6,7 @@
   <title>RCM — SIERA Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&amp;display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -63,7 +63,7 @@
     .nav-icon svg { width: 17px; height: 17px; }
     .nav-title { font-size: 15px; font-weight: 800; color: #111827; letter-spacing: -0.3px; }
     .nav-sub { font-size: 10px; color: #9ca3af; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; margin-top: 1px; }
-    .nav-right { display: flex; align-items: center; gap: 8px; }
+    .nav-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
     .nav-tag {
       font-size: 11px;
       font-weight: 600;
@@ -323,6 +323,8 @@
       padding: 20px 22px;
       margin-bottom: 16px;
       background: #fafafa;
+      opacity: 0.8;
+      filter: saturate(0.88);
     }
     .coming-card-header {
       display: flex;
@@ -371,6 +373,7 @@
       font-size: 11px;
       color: #9ca3af;
       font-weight: 600;
+      pointer-events: none;
     }
     .coming-feat span { display: block; font-size: 10px; font-weight: 500; color: #d1d5db; margin-top: 1px; }
 
@@ -403,15 +406,119 @@
     .footer-link:hover { color: #7C3AED; }
 
     /* ─── Responsive ─────────────────────────────── */
-    @media (max-width: 640px) {
-      .nav { padding: 0 16px; }
-      .main { padding: 24px 16px 48px; }
+    @media (max-width: 860px) {
+      .nav-left { flex-wrap: wrap; }
+      .hero-title { font-size: 24px; }
       .metric-strip { grid-template-columns: repeat(2, 1fr); }
-      .dim-grid { grid-template-columns: repeat(2, 1fr); }
       .decision-row { grid-template-columns: repeat(2, 1fr); }
-      .feature-grid { grid-template-columns: 1fr; }
-      .coming-features { grid-template-columns: 1fr; }
-      .tool-card-footer { flex-direction: column; align-items: flex-start; }
+      .dim-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    /* ─── Glass override ────────────────────────── */
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(224, 231, 255, 0.96), transparent 34%),
+        linear-gradient(180deg, #fafbff 0%, #f2f5ff 48%, #eef3ff 100%);
+      color: #0f172a;
+    }
+    .nav,
+    .tool-card,
+    .metric-cell,
+    .decision-card,
+    .dim-item,
+    .coming-card {
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-color: rgba(221, 214, 254, 0.54);
+      box-shadow: 0 18px 44px rgba(125, 102, 214, 0.12);
+    }
+    .nav {
+      margin: 18px auto 0;
+      max-width: 1120px;
+      border: 1px solid rgba(221, 214, 254, 0.56);
+      border-radius: 22px;
+      position: sticky;
+      top: 14px;
+      width: calc(100% - 32px);
+    }
+    .main {
+      max-width: 1120px;
+      padding-top: 28px;
+    }
+    .metric-strip,
+    .dim-grid {
+      gap: 12px;
+      background: transparent;
+      border: none;
+      overflow: visible;
+    }
+    .metric-cell,
+    .dim-item,
+    .decision-card {
+      border: 1px solid rgba(221, 214, 254, 0.5);
+      border-radius: 18px;
+    }
+    .dim-block,
+    .tool-card {
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 18px 44px rgba(125, 102, 214, 0.12);
+    }
+    .dim-block {
+      background: rgba(255, 255, 255, 0.62);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .tool-card-header,
+    .tool-card-footer,
+    .dim-block-header {
+      background: rgba(255, 255, 255, 0.46);
+      border-color: rgba(221, 214, 254, 0.36);
+    }
+    .launch-btn {
+      background: linear-gradient(135deg, #7C3AED 0%, #8B5CF6 100%);
+      box-shadow: 0 14px 28px rgba(124, 58, 237, 0.2);
+    }
+    @media (max-width: 640px) {
+      .nav {
+        width: calc(100% - 20px);
+        top: 10px;
+      }
+      .nav {
+        height: auto;
+        padding: 14px 16px;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .nav-left,
+      .nav-right {
+        width: 100%;
+      }
+      .nav-right {
+        justify-content: flex-start;
+      }
+      .main { padding: 22px 16px 42px; }
+      .hero-meta,
+      .tool-meta-badges {
+        gap: 6px;
+      }
+      .metric-strip,
+      .decision-row,
+      .dim-grid,
+      .feature-grid,
+      .coming-features {
+        grid-template-columns: 1fr;
+      }
+      .tool-card-header,
+      .tool-card-footer,
+      .coming-card-header,
+      .footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .coming-pill {
+        margin-left: 0;
+      }
       .launch-btn { width: 100%; justify-content: center; }
     }
   </style>
@@ -615,7 +722,7 @@
           <span class="mini-badge">12 dimensi</span>
           <span class="mini-badge">102+ stores</span>
         </div>
-        <a class="launch-btn" href="modules/RCM/era-analytics/index.html" style="background:#7C3AED;">
+        <a class="launch-btn" href="https://era-analytics-code.netlify.app" target="_blank" rel="noopener noreferrer" aria-label="Buka ERA-ANALYTICS di tab baru" style="background:#7C3AED;">
           Buka ERA-ANALYTICS
           <svg viewBox="0 0 13 13" fill="none">
             <path d="M2 2h9v9M2 11L11 2" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
@@ -670,7 +777,7 @@
         <path d="M8 7v5M8 5.5v-.5" stroke="#7C3AED" stroke-width="1.3" stroke-linecap="round"/>
       </svg>
       <div class="info-text">
-        <strong>ERA-PROMO</strong> sedang dalam tahap perencanaan. Requirement dikumpulkan dari RCM team sebelum development dimulai. Estimasi Q2 2026.
+        <strong>Timeline RCM:</strong> <strong>ERA-PROMO</strong> masih dalam tahap perencanaan dan pengumpulan requirement dari RCM team. Estimasi pengembangan awal ditargetkan pada Q2 2026.
       </div>
     </div>
 
