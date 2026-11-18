@@ -109,7 +109,7 @@ var RMO_HUB_DATA = {
       id: "planogram",
       name: "Planogram Rak Aksesoris",
       title: "Planogram Compliance",
-      status: "live",
+      status: "prototype",
       url: "https://era-planogram.netlify.app",
       inputSource: "Input via ERA-VIS",
       pic: "VM & Exhibition Asst. Manager",
@@ -193,8 +193,8 @@ function validateRmoHubData(data) {
       statusCount[m.status]++;
     }
   });
-  if (statusCount.live !== 3) warnings.push("Jumlah modul status 'live' seharusnya 3, sekarang " + statusCount.live);
-  if (statusCount.prototype !== 2) warnings.push("Jumlah modul status 'prototype' seharusnya 2, sekarang " + statusCount.prototype);
+  if (statusCount.live !== 2) warnings.push("Jumlah modul status 'live' seharusnya 2, sekarang " + statusCount.live);
+  if (statusCount.prototype !== 3) warnings.push("Jumlah modul status 'prototype' seharusnya 3, sekarang " + statusCount.prototype);
   if (statusCount.build !== 1) warnings.push("Jumlah modul status 'build' seharusnya 1, sekarang " + statusCount.build);
 
   var modulesIntegratedCurrent = statusCount.live;
