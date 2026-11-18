@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/rmo-hub.css">
   <style>
     :root {
       --bg: #f4f8ff;
@@ -422,6 +423,22 @@
     .snapshot-metric-foot.negative {
       color: #ef4444;
       font-weight: 700;
+    }
+
+    #presentation-toggle-btn[aria-pressed="true"] {
+      background: #31458a;
+      border-color: #31458a;
+      color: #fff;
+    }
+
+    body.presentation-mode .snapshot-metric-value {
+      color: var(--muted-soft) !important;
+      letter-spacing: 2px;
+    }
+
+    body.presentation-mode .snapshot-pill:not(:first-child) {
+      color: var(--muted-soft);
+      letter-spacing: 2px;
     }
 
     .snapshot-highlight {
@@ -1335,6 +1352,7 @@
       <div class="topbar-actions">
         <div class="status-pill"><span class="status-dot"></span>System online</div>
         <div class="soft-pill">196 stores aktif</div>
+        <button class="soft-pill" id="presentation-toggle-btn" type="button" onclick="togglePresentationMode()" aria-pressed="false" style="font-family:'DM Sans',sans-serif; cursor:pointer;">Mode Presentasi: <span id="presentation-toggle-state">Off</span></button>
         <div class="avatar-pill"><span class="avatar-mark">GP</span>Ghesang</div>
       </div>
     </header>
@@ -1551,23 +1569,24 @@
             <div class="division-title">VMD &amp; Activity</div>
             <div class="division-meta-line">
               <div class="division-meta-copy">
-                <strong>2 live tools</strong>
-                <span>Launcher cepat untuk compliance dan reminder</span>
+                <strong>2 live &middot; 2 prototype &middot; 2 build 2027</strong>
+                <span>Semua KPI RMO dirangkum dalam satu RMO Hub</span>
               </div>
-              <div class="division-action-mini">Choose</div>
+              <div class="division-action-mini">Open Hub</div>
             </div>
           </div>
           <div class="tool-badges">
             <span class="tool-pill">ERA-VIS</span>
             <span class="tool-pill">SIGNTAX-ERA</span>
+            <span class="tool-pill planned">+4 modul</span>
           </div>
           <div class="division-divider"></div>
           <div class="stat-row">
-            <div class="stat-box"><span class="stat-value">2</span><span class="stat-label">Live tools</span></div>
-            <div class="stat-box"><span class="stat-value">135</span><span class="stat-label">Coverage</span></div>
-            <div class="stat-box"><span class="stat-value">Fast</span><span class="stat-label">Launcher</span></div>
+            <div class="stat-box"><span class="stat-value">6</span><span class="stat-label">Modul</span></div>
+            <div class="stat-box"><span class="stat-value">2</span><span class="stat-label">Live</span></div>
+            <div class="stat-box"><span class="stat-value">4</span><span class="stat-label">Coming</span></div>
           </div>
-          <div class="launcher-caption">Click card untuk pilih tool RMO</div>
+          <div class="launcher-caption">Click card untuk buka RMO Hub</div>
         </button>
 
         <a class="division-card t-rcd" href="https://era-maps-reg5.netlify.app" target="_blank" rel="noopener noreferrer" aria-label="Buka ERA-MAPS">
@@ -1689,48 +1708,145 @@
     </div>
   </div>
 
-  <div class="launcher-modal" id="launcher-rmo" role="dialog" aria-modal="true" aria-label="RMO launcher">
-    <div class="launcher-shell glass t-rmo">
-      <div class="launcher-nav">
+  <div class="launcher-modal hub-modal" id="launcher-rmo" role="dialog" aria-modal="true" aria-label="SIERA-RMO Hub">
+    <div class="hub-shell glass t-rmo">
+      <div class="hub-topbar">
         <button class="launcher-back" type="button" onclick="closeLauncher()">Tutup</button>
-        <div class="launcher-heading"><h3>RMO Launcher</h3><p>Pilih tool live yang dibutuhkan</p></div>
+        <div class="hub-breadcrumb">SIERA Portal &rsaquo; RMO &rsaquo; <strong>RMO Hub</strong></div>
         <a class="launcher-link" href="modules/RMO/index.html">Lihat versi lama</a>
       </div>
-      <div class="launcher-hero">
-        <div>
-          <div class="launcher-label">Division · RMO</div>
-          <div class="launcher-title">VMD &amp; Activity</div>
-          <div class="launcher-desc">Preview alur baru: dari dashboard, user langsung pilih tool live tanpa harus melewati satu halaman hub lagi.</div>
-        </div>
-        <div class="launcher-side">
-          <div class="launcher-icon division-icon">
-            <svg viewBox="0 0 20 20" fill="none">
-              <rect x="2" y="5" width="16" height="11" rx="2" stroke="#d97706" stroke-width="1.5"/>
-              <path d="M6 9h8M6 12h5" stroke="#d97706" stroke-width="1.1" stroke-linecap="round"/>
-              <circle cx="16" cy="5" r="3" fill="#fde68a" stroke="#d97706" stroke-width="1"/>
-            </svg>
-          </div>
-        </div>
+
+      <div class="hub-header">
+        <div class="hub-progress-badge" id="hub-progress-badge">Modul terintegrasi 2/6 &rarr; target 6/6 (Jun 2027)</div>
+        <div class="hub-title">SIERA-RMO &middot; RMO Hub Region 5</div>
+        <div class="hub-subtitle">1 dashboard untuk semua KPI Regional Marketing Operations &mdash; 196 toko</div>
       </div>
-      <div class="launcher-list">
-        <div class="launcher-item">
-          <div class="launcher-item-copy">
-            <div class="launcher-status live">Live</div>
-            <strong>ERA-VIS</strong>
-            <span>Compliance monitoring, foto audit, dan WA escalation untuk 135 stores.</span>
-          </div>
-          <a class="launcher-item-action" href="https://era-vis.netlify.app" target="_blank" rel="noopener noreferrer">Open tool</a>
-        </div>
-        <div class="launcher-item">
-          <div class="launcher-item-copy">
-            <div class="launcher-status live">Live</div>
-            <strong>SIGNTAX-ERA</strong>
-            <span>Reminder H-60/H-30/H-7, vendor ELFABI dan CAKRA, serta due-date tracking.</span>
-          </div>
-          <a class="launcher-item-action" href="https://signtax-era.netlify.app" target="_blank" rel="noopener noreferrer">Open tool</a>
-        </div>
+
+      <div class="hub-filters">
+        <select class="hub-filter-select" id="hub-filter-period" aria-label="Filter periode"></select>
+        <select class="hub-filter-select" id="hub-filter-area" aria-label="Filter area"></select>
+        <select class="hub-filter-select" id="hub-filter-brand" aria-label="Filter brand"></select>
       </div>
-      <div class="launcher-note">RMO cocok pakai launcher karena punya dua tool live yang sama-sama penting. Dashboard cukup menjadi decision point, bukan halaman penjelasan panjang.</div>
+
+      <section class="hub-section" id="hub-kpi-section">
+        <div class="hub-kpi-card">
+          <div class="hub-kpi-gauge" id="hub-kpi-gauge"></div>
+          <div class="hub-kpi-copy">
+            <div class="hub-kpi-label">KPI RMO Index</div>
+            <div class="hub-kpi-desc" id="hub-kpi-desc"></div>
+            <details class="hub-kpi-details">
+              <summary>Cara hitung</summary>
+              <div class="hub-kpi-breakdown" id="hub-kpi-breakdown"></div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="hub-section" id="hub-scorecard-section">
+        <div class="hub-section-head">
+          <div class="hub-section-title">Scorecard Target 2027</div>
+          <div class="hub-section-desc">Posisi sekarang vs target akhir program untuk 5 indikator utama SIERA-RMO.</div>
+        </div>
+        <div class="hub-scorecard-grid" id="hub-scorecard-grid"></div>
+      </section>
+
+      <section class="hub-section" id="hub-module-section">
+        <div class="hub-section-head">
+          <div class="hub-section-title">6 Modul RMO</div>
+          <div class="hub-section-desc">Dari 2 modul live sekarang menjadi 6 modul dalam satu hub &mdash; toko tetap input di modul masing-masing (ERA-VIS, dll.), hub ini merangkum semuanya untuk Head Region, HOC, LOB &amp; TSH.</div>
+        </div>
+        <div class="hub-module-grid" id="hub-module-grid"></div>
+      </section>
+
+      <section class="hub-section" id="hub-flow-section">
+        <div class="hub-section-head">
+          <div class="hub-section-title">Alur Data: Input vs Rangkuman</div>
+          <div class="hub-section-desc">SIERA-RMO (Program Kerja 1) tidak menggantikan modul input seperti ERA-VIS &mdash; hub ini merangkum data yang sudah masuk untuk dibaca Head Region, HOC, LOB &amp; TSH.</div>
+        </div>
+        <div class="hub-flow">
+          <div class="hub-flow-col">
+            <div class="hub-flow-label">Input</div>
+            <div class="hub-flow-box">Toko / Store Leader / ERO</div>
+          </div>
+          <div class="hub-flow-arrow">&rarr;</div>
+          <div class="hub-flow-col">
+            <div class="hub-flow-label">Input</div>
+            <div class="hub-flow-stack">
+              <div class="hub-flow-chip">ERA-VIS</div>
+              <div class="hub-flow-chip">SIGNTAX-ERA</div>
+              <div class="hub-flow-chip">Exhibition</div>
+              <div class="hub-flow-chip">Activation</div>
+            </div>
+          </div>
+          <div class="hub-flow-arrow">&rarr;</div>
+          <div class="hub-flow-col">
+            <div class="hub-flow-label">Rangkuman</div>
+            <div class="hub-flow-box highlight">SIERA-RMO Hub</div>
+          </div>
+          <div class="hub-flow-arrow">&rarr;</div>
+          <div class="hub-flow-col">
+            <div class="hub-flow-label">Rangkuman</div>
+            <div class="hub-flow-box">Head Region &middot; HOC &middot; LOB &middot; TSH</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="hub-section" id="hub-leaderboard-section">
+        <div class="hub-section-head">
+          <div class="hub-section-title">Leaderboard Area</div>
+          <div class="hub-section-desc">Klik judul kolom untuk urutkan. Area dengan skor KPI RMO terendah mendapat catatan tindak lanjut.</div>
+        </div>
+        <div class="hub-leaderboard-wrap">
+          <table class="hub-leaderboard-table" id="hub-leaderboard-table">
+            <thead>
+              <tr>
+                <th data-sort="area">Area</th>
+                <th data-sort="compliance">Compliance VIS</th>
+                <th data-sort="submit1w1c">Submit 1W1C</th>
+                <th data-sort="eligibleRate">Eligible Rate</th>
+                <th data-sort="kpiScore">Skor KPI RMO</th>
+              </tr>
+            </thead>
+            <tbody id="hub-leaderboard-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="hub-section" id="hub-chart-section">
+        <div class="hub-section-head">
+          <div class="hub-section-title">Tren &amp; Perbandingan</div>
+        </div>
+        <div class="hub-chart-grid">
+          <div class="hub-chart-card">
+            <div class="hub-chart-title">Tren KPI RMO Index &middot; 6 bulan terakhir</div>
+            <canvas id="hub-chart-trend" height="220"></canvas>
+          </div>
+          <div class="hub-chart-card">
+            <div class="hub-chart-title">Eligible Rate 1W1C per Area vs Target 40%</div>
+            <canvas id="hub-chart-eligible" height="220"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <section class="hub-section" id="hub-roadmap-section">
+        <div class="hub-section-head">
+          <div class="hub-section-title">Roadmap 2027</div>
+          <div class="hub-section-desc">Dari mapping KPI sampai roll-out penuh 196 toko.</div>
+        </div>
+        <div class="hub-roadmap-track" id="hub-roadmap-track"></div>
+      </section>
+
+      <div class="hub-footer-note">
+        <span>SIERA-RMO &middot; Program Kerja 1 &middot; Data sampel untuk mock up</span>
+        <span id="hub-update-date">Update 16 Nov 2026, 18.00</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hub-preview-modal" id="hub-module-preview" role="dialog" aria-modal="true" aria-label="Preview modul RMO">
+    <div class="hub-preview-shell t-rmo">
+      <button class="launcher-back" type="button" onclick="closeModulePreview()">Tutup</button>
+      <div id="hub-preview-content"></div>
     </div>
   </div>
 
@@ -1743,6 +1859,10 @@
       });
       modal.classList.add('open');
       document.body.classList.add('panel-open');
+
+      if (division === 'rmo' && typeof onRmoHubOpen === 'function') {
+        onRmoHubOpen();
+      }
     }
 
     function closeLauncher() {
@@ -1759,8 +1879,66 @@
     });
 
     document.addEventListener('keydown', function(event) {
-      if (event.key === 'Escape') closeLauncher();
+      if (event.key !== 'Escape') return;
+      var openPreview = document.querySelector('.hub-preview-modal.open');
+      if (openPreview && typeof closeModulePreview === 'function') {
+        closeModulePreview();
+        return;
+      }
+      closeLauncher();
     });
+
+    var PRESENTATION_MASK = '•••';
+    var PRESENTATION_STORAGE_KEY = 'siera_presentation_mode';
+    var presentationOriginals = [];
+
+    function getPresentationTargets() {
+      return document.querySelectorAll('.snapshot-pill:not(:first-child), .snapshot-metric-value');
+    }
+
+    function capturePresentationOriginals() {
+      presentationOriginals = Array.prototype.map.call(getPresentationTargets(), function(el) {
+        return el.textContent;
+      });
+    }
+
+    function applyPresentationMode(enabled) {
+      var targets = getPresentationTargets();
+      targets.forEach(function(el, i) {
+        el.textContent = enabled ? PRESENTATION_MASK : presentationOriginals[i];
+      });
+      document.body.classList.toggle('presentation-mode', enabled);
+
+      var btn = document.getElementById('presentation-toggle-btn');
+      if (btn) btn.setAttribute('aria-pressed', String(enabled));
+
+      var stateEl = document.getElementById('presentation-toggle-state');
+      if (stateEl) stateEl.textContent = enabled ? 'On' : 'Off';
+    }
+
+    function togglePresentationMode() {
+      var enabled = !document.body.classList.contains('presentation-mode');
+      applyPresentationMode(enabled);
+      try {
+        localStorage.setItem(PRESENTATION_STORAGE_KEY, enabled ? '1' : '0');
+      } catch (e) {
+        // localStorage tidak tersedia (mis. private mode) — mode presentasi tetap jalan untuk sesi ini saja
+      }
+    }
+
+    (function initPresentationMode() {
+      capturePresentationOriginals();
+      var saved = false;
+      try {
+        saved = localStorage.getItem(PRESENTATION_STORAGE_KEY) === '1';
+      } catch (e) {
+        saved = false;
+      }
+      if (saved) applyPresentationMode(true);
+    })();
   </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="data/rmo-hub-data.js"></script>
+  <script src="js/rmo-hub.js"></script>
 </body>
 </html>
