@@ -109,20 +109,15 @@ var RMO_HUB_DATA = {
       id: "planogram",
       name: "Planogram Rak Aksesoris",
       title: "Planogram Compliance",
-      status: "build",
-      targetDate: "Jun 2027",
+      status: "live",
+      url: "https://era-planogram.netlify.app",
       inputSource: "Input via ERA-VIS",
       pic: "VM & Exhibition Asst. Manager",
       kpis: [
         { label: "% rak sesuai planogram", value: "Belum dihitung" },
         { label: "Toko temuan", value: "Belum dihitung" }
       ],
-      description: "Compliance planogram rak aksesoris, input foto lewat modul ERA-VIS yang sudah berjalan.",
-      previewTimeline: [
-        { phase: "Jan–Feb 2027", text: "Desain standar planogram per brand" },
-        { phase: "Mar–Apr 2027", text: "Pilot audit 20 toko" },
-        { phase: "Mei–Jun 2027", text: "Roll-out 196 toko" }
-      ]
+      description: "Compliance planogram rak aksesoris, input foto lewat modul ERA-VIS yang sudah berjalan."
     },
     {
       id: "sosmed",
@@ -198,9 +193,9 @@ function validateRmoHubData(data) {
       statusCount[m.status]++;
     }
   });
-  if (statusCount.live !== 2) warnings.push("Jumlah modul status 'live' seharusnya 2, sekarang " + statusCount.live);
+  if (statusCount.live !== 3) warnings.push("Jumlah modul status 'live' seharusnya 3, sekarang " + statusCount.live);
   if (statusCount.prototype !== 2) warnings.push("Jumlah modul status 'prototype' seharusnya 2, sekarang " + statusCount.prototype);
-  if (statusCount.build !== 2) warnings.push("Jumlah modul status 'build' seharusnya 2, sekarang " + statusCount.build);
+  if (statusCount.build !== 1) warnings.push("Jumlah modul status 'build' seharusnya 1, sekarang " + statusCount.build);
 
   var modulesIntegratedCurrent = statusCount.live;
   if (modulesIntegratedCurrent > data.meta.modulesIntegrated.target) {
