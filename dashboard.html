@@ -1428,7 +1428,7 @@
           <a class="quick-link" href="https://era-sales-reg5.netlify.app/dashboard.html" target="_blank" rel="noopener noreferrer"><span>ERA-SALES</span><span>↗</span></a>
           <button class="quick-link" type="button" onclick="openLauncher('rcm')" style="font-family:'DM Sans',sans-serif; cursor:pointer;"><span>ERA-ANALYTICS</span><span>↗</span></button>
           <button class="quick-link" type="button" onclick="openLauncher('rmo')" style="font-family:'DM Sans',sans-serif; cursor:pointer;"><span>ERA-VIS</span><span>↗</span></button>
-          <a class="quick-link" href="https://era-maps-reg5.netlify.app" target="_blank" rel="noopener noreferrer"><span>ERA-MAPS</span><span>↗</span></a>
+          <button class="quick-link" type="button" onclick="openLauncher('rcd')" style="font-family:'DM Sans',sans-serif; cursor:pointer;"><span>ERA-MAPS</span><span>↗</span></button>
         </div>
       </aside>
     </section>
@@ -1446,13 +1446,13 @@
       </article>
       <article class="metric-card">
         <div class="metric-label">Live tool</div>
-        <div class="metric-value">5<span>core</span></div>
-        <div class="metric-foot">ERA-SALES, ANALYTICS, VIS, SIGNTAX</div>
+        <div class="metric-value">6<span>core</span></div>
+        <div class="metric-foot">ERA-SALES, ANALYTICS, VIS, SIGNTAX, MAPS, RCD</div>
       </article>
       <article class="metric-card">
         <div class="metric-label">Portal posture</div>
         <div class="metric-value">Q2<span>build</span></div>
-        <div class="metric-foot warn">RCD masih planned rollout</div>
+        <div class="metric-foot positive">Semua divisi sudah punya entry point live</div>
       </article>
     </section>
 
@@ -1589,7 +1589,7 @@
           <div class="launcher-caption">Click card untuk buka RMO Hub</div>
         </button>
 
-        <a class="division-card t-rcd" href="https://era-maps-reg5.netlify.app" target="_blank" rel="noopener noreferrer" aria-label="Buka ERA-MAPS">
+        <button class="division-card t-rcd" type="button" onclick="openLauncher('rcd')" aria-label="Buka launcher RCD">
           <div class="division-top">
             <div class="division-icon">
               <svg viewBox="0 0 20 20" fill="none">
@@ -1609,24 +1609,24 @@
             <div class="division-title">Site &amp; Channel</div>
             <div class="division-meta-line">
               <div class="division-meta-copy">
-                <strong>1 live tool</strong>
-                <span>Direct access ke mapping dan channel coverage</span>
+                <strong>2 live tool</strong>
+                <span>Pilih tool dari launcher modal singkat</span>
               </div>
-              <div class="division-action-mini">Open</div>
+              <div class="division-action-mini">Choose</div>
             </div>
           </div>
           <div class="tool-badges">
             <span class="tool-pill">ERA-MAPS</span>
-            <span class="tool-pill alt">Direct open</span>
+            <span class="tool-pill">ERA-RCD</span>
           </div>
           <div class="division-divider"></div>
           <div class="stat-row">
-            <div class="stat-box"><span class="stat-value">1</span><span class="stat-label">Live tool</span></div>
+            <div class="stat-box"><span class="stat-value">2</span><span class="stat-label">Tools</span></div>
+            <div class="stat-box"><span class="stat-value">2</span><span class="stat-label">Live</span></div>
             <div class="stat-box"><span class="stat-value">Map</span><span class="stat-label">Coverage</span></div>
-            <div class="stat-box"><span class="stat-value">Open</span><span class="stat-label">Now</span></div>
           </div>
-          <div class="launcher-caption">Click card untuk langsung buka ERA-MAPS</div>
-        </a>
+          <div class="launcher-caption">Click card untuk pilih tool RCD</div>
+        </button>
       </div>
     </section>
 
@@ -1646,8 +1646,8 @@
         <div class="panel-desc">Status live dan next rollout lintas division supaya user langsung paham mana yang siap dipakai dan mana yang masih direncanakan.</div>
         <div class="list-grid">
           <div class="list-item"><strong>OPERATIONS · Live</strong><span>ERA-SALES menjadi jalur direct open utama untuk monitoring sales harian Region 5.</span></div>
-          <div class="list-item"><strong>RCM &amp; RMO · Launcher active</strong><span>Dua division ini memakai launcher modal agar user bisa memilih tool live dengan satu langkah cepat.</span></div>
-          <div class="list-item"><strong>RCD · Live</strong><span>ERA-MAPS sekarang menjadi direct entry point untuk kebutuhan mapping dan channel coverage.</span></div>
+          <div class="list-item"><strong>RCM, RMO &amp; RCD · Launcher active</strong><span>Ketiga division ini memakai launcher modal agar user bisa memilih tool live dengan satu langkah cepat.</span></div>
+          <div class="list-item"><strong>RCD · 2 tool live</strong><span>ERA-MAPS dan ERA-RCD sekarang bisa dipilih langsung dari launcher untuk kebutuhan mapping dan channel development.</span></div>
         </div>
       </article>
     </section>
@@ -1840,6 +1840,50 @@
         <span>SIERA-RMO &middot; Program Kerja 1 &middot; Data sampel untuk mock up</span>
         <span id="hub-update-date">Update 16 Nov 2026, 18.00</span>
       </div>
+    </div>
+  </div>
+
+  <div class="launcher-modal" id="launcher-rcd" role="dialog" aria-modal="true" aria-label="RCD launcher">
+    <div class="launcher-shell glass t-rcd">
+      <div class="launcher-nav">
+        <button class="launcher-back" type="button" onclick="closeLauncher()">Tutup</button>
+        <div class="launcher-heading"><h3>RCD Launcher</h3><p>Pilih tool tanpa halaman perantara</p></div>
+        <a class="launcher-link" href="modules/RCD/index.html">Lihat versi lama</a>
+      </div>
+      <div class="launcher-hero">
+        <div>
+          <div class="launcher-label">Division · RCD</div>
+          <div class="launcher-title">Site &amp; Channel</div>
+          <div class="launcher-desc">Dua tool live untuk kebutuhan mapping dan channel development, bisa dibuka langsung dari launcher ini.</div>
+        </div>
+        <div class="launcher-side">
+          <div class="launcher-icon division-icon">
+            <svg viewBox="0 0 20 20" fill="none">
+              <path d="M10 2L18 7v6L10 18 2 13V7L10 2z" stroke="#ea580c" stroke-width="1.5" stroke-linejoin="round"/>
+              <circle cx="10" cy="10" r="3" stroke="#ea580c" stroke-width="1" opacity="0.4"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="launcher-list">
+        <div class="launcher-item">
+          <div class="launcher-item-copy">
+            <div class="launcher-status live">Live</div>
+            <strong>ERA-MAPS</strong>
+            <span>Mapping dan channel coverage per toko lintas Region 5.</span>
+          </div>
+          <a class="launcher-item-action" href="https://era-maps-reg5.netlify.app" target="_blank" rel="noopener noreferrer">Open tool</a>
+        </div>
+        <div class="launcher-item">
+          <div class="launcher-item-copy">
+            <div class="launcher-status live">Live</div>
+            <strong>ERA-RCD</strong>
+            <span>Pipeline site acquisition dan channel development tracking Region 5.</span>
+          </div>
+          <a class="launcher-item-action" href="https://era-rcd.netlify.app" target="_blank" rel="noopener noreferrer">Open tool</a>
+        </div>
+      </div>
+      <div class="launcher-note">Dua tool RCD sudah live dan bisa dipilih langsung dari launcher singkat ini.</div>
     </div>
   </div>
 
